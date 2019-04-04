@@ -1,0 +1,24 @@
+This is the Chimera Programmer's site.
+
+https://www.cgl.ucsf.edu/chimera/current/docs/ProgrammersGuide/index.html
+https://www.cgl.ucsf.edu/chimera/current/docs/ProgrammersGuide/Examples/index.html
+
+
+For example, we can see how to use command line programs (Blast, Modeller, etc) on Chimera.
+
+https://www.cgl.ucsf.edu/chimera/current/docs/ProgrammersGuide/Examples/Main_RunSubprocess.html
+
+
+
+About MAINMAST,
+
+Programs are available at
+http://kiharalab.org/mainmast/
+
+There are examples.
+http://kiharalab.org/mainmast/Tutorials.html#ex1
+
+All files are included in
+http://kiharalab.org/mainmast/Downloads.html
+
+

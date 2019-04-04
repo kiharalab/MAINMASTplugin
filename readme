@@ -1,0 +1,106 @@
+# MAINMASTplugin
+This is the plugin in Chimera for MAINMAST program
+
+To view more information and how to use it, please go to github Wiki(https://github.com/zhayuhong/MAINMASTplugin/wiki)!
+
+TODO:
+
+`
+03/29 Implement mrc2situs download button, one click download
+`
+
+`
+03/29 Rearrange code and add comments
+`
+
+`
+03/29 Implement editing function
+`
+
+`
+03/29 Build a webpage for the plugin
+`
+
+`
+04/25 Remember to complier the MAINMAST to executable file before running
+`
+
+`
+04/25 Add a place to add current working directory (Mac cannot specify the working directory)
+`
+
+`
+04/25 Adjust the UI to suit Mac
+`
+
+`
+05/22 Pop up warning window for error massage
+`
+
+DONE:
+
+`
+Implement function that when open new files, keep and hide the old files, and make the new file have the same orientation as the previous file
+`
+
+`
+Implement pdb2mrc and map2map
+`
+
+`
+Test and check the github repository works on lab mechines
+`
+
+`
+Finish github wiki
+`
+
+`
+Add a botton to open situs file and change transparency to 0.8                                                                                                                                                                                                                                                                                                                                                                                                                     
+`
+
+`
+Implement function that the GUI auto update when the file creation is ready
+`
+
+`
+03/29 Implement save and restore session function
+`
+
+`
+03/29 Implement refinement method
+`
+
+05/06 Update:
+
+`
+Changed address from newdir = prevdir + "/MAINMAST/MAINMASTfile" to newdir = prevdir + "Users/yuhongzha/Desktop/MAINMASTplugin/MAINMAST/MAINMASTfile" to correct file location
+`
+
+`
+Comment line 858 because pulchura not installed in laptop
+`
+
+`
+Update 347 350 for button display
+`
+
+`
+Update 1241 for background color
+`
+
+`
+Update "rc("setattr m ballScale 0.35")" for ballScale
+`
+
+`
+Update from line 1296 to change to "ready to display"
+`
+
+`
+changed "t=9" to "t=1"
+`
+
+`
+changed unknow to 6374
+`

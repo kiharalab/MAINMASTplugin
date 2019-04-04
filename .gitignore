@@ -1,0 +1,8 @@
+#ignore all .pyc file
+
+*.pyc
+*.pdb
+*.spd3
+*.pssm
+*.situs
+*.seq
