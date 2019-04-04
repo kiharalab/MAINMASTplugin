@@ -1,2 +1,2 @@
 def showWorkingPath():
-    return "/Users/yuhongzha/Desktop/MAINMASTplugin/MainMastUI"
+    return "/your_path_to_MAINMASTplugin/MAINMASTplugin/MainMastUI/WorkPath.py"
