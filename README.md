@@ -28,7 +28,7 @@ This part will guide you through the process of installation:
 3. Download the MAINMAST plugin.
 4. Set up plugin configurations.
 
-Note: The current version is for Linux only.
+Note: The current version is for Linux and Mac only.
 
 #### Install Chimera
 
