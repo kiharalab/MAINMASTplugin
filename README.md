@@ -1,5 +1,5 @@
 #  MAINMAST plugin for Chimera
-Last Updated: 01/16/2019
+Last Updated: 04/05/2019
 
 ### Licence
 (c) 2019 Yuhong Zha, Genki Terashi, Daisuke Kihara and Purdue University 
@@ -70,7 +70,10 @@ phenix.real_space_refine model.pdb map.ccp4 resolution=4.2
 
 #### Download MAINMAST plugin
 
-Download plugin code from github [here](https://github.com/zhayuhong/MAINMASTplugin). Make sure you remember the path where you put this code, it will be used for set up configuration later. 
+Download plugin code from github [here](https://github.com/kiharalab/MAINMASTplugin.git). 
+
+###### This first step is really important!!! 
+Make sure you remember the path where you put this file, it will be used for set up configuration later. 
 
 For example, if the file is stored at
 ```
@@ -83,24 +86,26 @@ Then __your_path_to_MAINMASTplugin__ will be
 #### Set up plugin configurations
 
 ##### First, set up pulgin's working directory. 
-To set up this configuration, go to
+To set up this configuration, go to WorkPath.py located at:
 ```
 /your_path_to_MAINMASTplugin/MAINMASTplugin/MainMastUI/WorkPath.py
 ```
-and change the path in WorkPath.py to:
+and change it to:
 ```
 def showWorkingPath():
-    return "/your_path_to_MAINMASTplugin/MAINMASTplugin/MainMastUI"
+return "/your_path_to_MAINMASTplugin/MAINMASTplugin/MainMastUI"
 ```
-Remember, __your_path_to_MAINMASTplugin__ is where you saved your MAINMASTplugin folder.
+Remember, __your_path_to_MAINMASTplugin__ is where you saved your MAINMASTplugin file.
 
 ##### Second, add the plugin to Chimera. 
-Open Chimera. You can open Chimera directly or using command(in linux):
+First, open Chimera. 
+If you are using Mac, then go to Application --> Chimera and open it.
+If you are using Linus, can open Chimera directly or using command:
 ```
 chimera
 ```
-Once the Chimera is open, you can add this MAINMAST plugin extension to Chimera program.
-To add MAINMAST, go to `Tools`-> `General Controls`-> `IDLE`
+Once the Chimera is open, you have to add MAINMASTplugin extension to Chimera program.
+To do this, simply go to Chimera  `Tools`-> `General Controls`-> `IDLE`
 
 Then, chimera will open a Python Shell window. In the command line, type
 
@@ -108,7 +113,7 @@ Then, chimera will open a Python Shell window. In the command line, type
 import MainMastUI.gui
 ```
 
-If you see a button with MAINMAST logo appear in Chimera, then congratulation, you are ready to use the program.
+If you see a button with MAINMAST logo appear on top left corner, then you are ready to use the program.
 
 ## Running MAINMAST plugin
 
@@ -139,7 +144,7 @@ You can use [this example](http://kiharalab.org/mainmast/Tutorials.html#ex1) to 
 `Size of tabu-list`. default=100
 `Radius of Local MST`. default=10
 `Number of Iterations`
-Note: All attribute values must be set before generating graph. No field can be empty.
+Note: All attribute values must be entered before generating graph. No field can be empty.
 
 More detailed explanation of each attributes can be found [here](http://kiharalab.org/mainmast/Tutorials.html#mainmast).
 
@@ -159,7 +164,7 @@ Choose the button that suits your purpose the most. We recommend first used `Cre
 
 #### Section 2: Display MAINMAST graphs
 
-<img src="https://github.com/zhayuhong/MAINMASTplugin/blob/master/imgs/img3.png" width="240">
+<img src="https://github.com/zhayuhong/MAINMASTplugin/blob/master/imgs/img2_new.png" width="240">
 
 This is the file display section of MAINMAST plugin. In this section, you can change the number of Main-chain files and ThreadCA files shown using __Number of Main-chain Path shown__ and __Number of CA file shown__. You can also display all graph you created using buttons.
 
