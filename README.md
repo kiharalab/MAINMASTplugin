@@ -120,14 +120,14 @@ If you see a button with MAINMAST logo appear on top left corner, then you are r
 
 ## Running MAINMAST plugin
 
-<img src="https://github.com/zhayuhong/MAINMASTplugin/blob/master/imgs/img1.png" width="330">
+<img src="https://github.com/kiharalab/MAINMASTplugin/blob/master/imgs/img1.png" width="330">
 
 Click on the MAINMAST logo appeared in Chimera to launch the plugin. 
 Basic components of MAINMAST plugin can be separated into 3 parts:
 
 #### Section 1: Create MAINMAST files
 
-<img src="https://github.com/zhayuhong/MAINMASTplugin/blob/master/imgs/img2.png" width="240">
+<img src="https://github.com/kiharalab/MAINMASTplugin/blob/master/imgs/img2.png" width="240">
 
 This is the beginning section of MAINMAST plugin: file creation. After upload all required files and set all attributes, plugin will create MAINMAST output file automatically. We will explain in detail of __required files__, __attribute value meanings__, __create file button functions__.
 
@@ -167,7 +167,7 @@ Choose the button that suits your purpose the most. We recommend first used `Cre
 
 #### Section 2: Display MAINMAST graphs
 
-<img src="https://github.com/zhayuhong/MAINMASTplugin/blob/master/imgs/img2_new.png" width="240">
+<img src="https://github.com/kiharalab/MAINMASTplugin/blob/master/imgs/img2_new.png" width="240">
 
 This is the file display section of MAINMAST plugin. In this section, you can change the number of Main-chain files and ThreadCA files shown using __Number of Main-chain Path shown__ and __Number of CA file shown__. You can also display all graph you created using buttons.
 
@@ -213,7 +213,7 @@ Copy those command line by line to your terminal. After success, go back to the 
 
 #### Section 3: Save and restore files
 
-<img src="https://github.com/zhayuhong/MAINMASTplugin/blob/master/imgs/img4.png" width="240">
+<img src="https://github.com/kiharalab/MAINMASTplugin/blob/master/imgs/img4.png" width="240">
 
 In this section, you can either save all files to your __own directory__ and restore them later.
 
@@ -221,7 +221,7 @@ __your own places__:
 `save session&file`: Save the current files to directory you selected. It will also store the zoom in/out percentage and the orientation of the current display.
 `restore session&file`: Restore the file from the directory you selected. It will restore the last displayed graph, the zoom in/out percentage and the orientation.
 `compare session&file`: Select up to 3 files previously stored and compare their graphs. You can compare all output files stated in __section 2__.
-<img src="https://github.com/zhayuhong/MAINMASTplugin/blob/master/imgs/img5.png" width="330">
+<img src="https://github.com/kiharalab/MAINMASTplugin/blob/master/imgs/img5.png" width="330">
 
 
 ## Other useful resources
