@@ -1081,30 +1081,34 @@ class MainchainDialog(ModelessDialog):
         #   It pops up a file selection window and allow the user to
         #   navigate to the find the file.
         def chooseFile_callback():
-            efileName.delete(0, "end")
-            efilePath.delete(0, "end")
             path=tkFileDialog.askopenfilename()
-            filename = path.split("/")
-            efileName.insert(0, filename[len(filename)-1])
-            efilePath.insert(0, path)
-            pnix_mrc.delete(0, "end")
+            if path != "":
+                efileName.delete(0, "end")
+                efilePath.delete(0, "end")
+                
+                filename = path.split("/")
+                efileName.insert(0, filename[len(filename)-1])
+                efilePath.insert(0, path)
+                pnix_mrc.delete(0, "end")
             # spd3fileName.delete(0, "end")
 
 
         def chooseMrcFile_callback():
-            pnix_mrc.delete(0, "end")
             path=tkFileDialog.askopenfilename()
-            if path == "":
-                return
-            pnix_mrc.insert(0, path)
+            if path != "":
+                pnix_mrc.delete(0, "end")
+                
+                if path == "":
+                    return
+                pnix_mrc.insert(0, path)
 
-            outfilePath = WorkPath.showWorkingPath()
-            end = outfilePath.find('/MainMastUI')
-            outfilePath = outfilePath[0:int(end)]
-            prevdir = os.getcwd()
-            newdir = outfilePath + "/MAINMAST/MAINMASTfile"
+                outfilePath = WorkPath.showWorkingPath()
+                end = outfilePath.find('/MainMastUI')
+                outfilePath = outfilePath[0:int(end)]
+                prevdir = os.getcwd()
+                newdir = outfilePath + "/MAINMAST/MAINMASTfile"
 
-            copyfile(path, newdir + "/current.mrc")
+                copyfile(path, newdir + "/current.mrc")
 
 
         #   This callback is called when the user select the input spd3 file.

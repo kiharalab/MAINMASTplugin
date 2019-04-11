@@ -1,5 +1,5 @@
 #  MAINMAST plugin for Chimera
-Last Updated: 04/05/2019
+Last Updated: 04/11/2019
 
 ### Licence
 (c) 2019 Yuhong Zha, Genki Terashi, Daisuke Kihara and Purdue University 
@@ -105,9 +105,12 @@ If you are using Linus, can open Chimera directly or using command:
 chimera
 ```
 Once the Chimera is open, you have to add MAINMASTplugin extension to Chimera program.
-To do this, simply go to Chimera  `Tools`-> `General Controls`-> `IDLE`
 
-Then, chimera will open a Python Shell window. In the command line, type
+To do this, first got to Chimera  `Favorites`-> `Preferences...`-> `Tools`, then click `Add...`, then select the MAINMASTplugin folder you just selected and click `Close`. Finally, click `Save` to apply the change. REMEMBER: when select the MAINMASTplugin folder, only click the folder once. Do not select any of the child folders. For example, if the folder is located at "Desktop/MAINMASTplugin", you should see Third-party plugin locations showing "Desktop".
+
+Finally, go to Chimera  `Tools`-> `General Controls`-> `IDLE`
+
+Chimera will open a Python Shell window. In the command line, type
 
 ```
 import MainMastUI.gui
