@@ -97,7 +97,16 @@ return "/your_path_to_MAINMASTplugin/MAINMASTplugin/MainMastUI"
 ```
 Remember, __your_path_to_MAINMASTplugin__ is where you saved your MAINMASTplugin file.
 
-##### Second, add the plugin to Chimera. 
+##### Second, build excutable file. 
+Compile from source codes:
+```
+cd /your_path_to_MAINMASTplugin/MAINMAST
+gfortran MAINMAST.f -O3 -fbounds-check -o MAINMAST -mcmodel=medium
+gfortran ThreadCA.f -O3 -fbounds-check -o ThreadCA -mcmodel=medium
+```
+If you do not have gfortran, please install it first from here https://gcc.gnu.org/wiki/GFortranBinaries.
+
+##### Third, add the plugin to Chimera. 
 First, open Chimera. 
 If you are using Mac, then go to Application --> Chimera and open it.
 If you are using Linus, can open Chimera directly or using command:
