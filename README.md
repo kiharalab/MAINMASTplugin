@@ -168,12 +168,15 @@ Choose the button that suits your purpose the most. We recommend first used `Cre
 When creating the file, the lower middle session of window will change the displaying words from "file not created" to "generating files", and the __window will be frozen during the time of file creation__. You will not be able to click any buttons during this period. After the displaying words change to "ready to display", you can continue using the window. Here shows an example after we click `Create MST & ALL Edges`:
 
 Before click the button, the windows shows "MST & all Edges: file not created"
+
 <img src="https://github.com/kiharalab/MAINMASTplugin/blob/master/imgs/img_file_not_created.png" width="240">
 
 After click the button, the windows changes to "MST & all Edges: generating files" and becomes frozen
+
 <img src="https://github.com/kiharalab/MAINMASTplugin/blob/master/imgs/img_generating.png" width="240">
 
 When file creation finishes, the windows shows "MST & all Edges: ready to display"
+
 <img src="https://github.com/kiharalab/MAINMASTplugin/blob/master/imgs/img_ready_to_display.png" width="240">
 
 #### Section 2: Display MAINMAST graphs
