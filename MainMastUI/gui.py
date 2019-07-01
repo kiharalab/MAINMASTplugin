@@ -287,7 +287,7 @@ class MainchainDialog(ModelessDialog):
                     filelist = [ file for file in os.listdir(outfilePath + "/MAINMAST/MAINMASTfile") ]
                     for f in filelist:
                         os.remove(os.path.join(outfilePath + "/MAINMAST/MAINMASTfile", f))
-            except (IOError),e:
+            except:
                 tkMessageBox.showwarning("Error", "Something went wrong, please check WorkPath.py")
                 os.chdir(prevdir)
                 return
@@ -415,7 +415,7 @@ class MainchainDialog(ModelessDialog):
                 MSTcreate = Tkinter.Label(createFileUI.sub_frame, text="MST & all Edges: ready to display")
                 MSTcreate.grid(row=13, column=0, columnspan=2, sticky=Tkinter.W)
 
-            except (IOError),e:
+            except:
                 tkMessageBox.showwarning("Error", "Something went wrong when generating files, please try again")
                 os.chdir(prevdir)
                 return
