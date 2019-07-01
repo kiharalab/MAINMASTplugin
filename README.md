@@ -1,5 +1,5 @@
 #  MAINMAST plugin for Chimera
-Last Updated: 04/11/2019
+Last Updated: 06/30/2019
 
 ### Licence
 (c) 2019 Yuhong Zha, Genki Terashi, Daisuke Kihara and Purdue University 
@@ -20,6 +20,8 @@ MAINMAST is a de novo modeling method for EM maps of near atomic resolution (les
 
 To view more information about MAINMAST, please visit [MAINMAST website](http://kiharalab.org/mainmast/index.html).
 
+__If you encounter any problem using the plugin, please contact zha0@purdue.edu (zha-zero) or gterashi@purdue.edu.__
+
 ## Getting Started
 
 This part will guide you through the process of installation:
@@ -35,57 +37,43 @@ Note: The current version is for Linux and Mac only.
 MAINMAST plugin is a ready to run tool working on the Chimera. To use MAINMAST plugin, please first download and install the [UCSF Chimera](https://www.cgl.ucsf.edu/chimera/download.html).
 After downloaded Chimera, follow the instruction on Chimera website to finish installation.
 
-#### Required packages
+#### Before installation
 
-In order to achieve the full functionality of the MAINMAST plugin, you should have the following package installed:
+MAINMAST plugin takes both file in `.situs` format and corresponding `.spd3` file to generate output file. So make sure you have both `.situs` format and corresponding `.spd3` file. If not, we have provided example files for you to try.
 
-__e2pdb2mrc__: Converts a pdb file into an electron density map. More information can be find [here](https://blake.bcm.edu/eman2/EMAN2.html/node97.html).
-Generate simulated map (ex: 1yfq.situs) from a PDB file (ex: 1yfq.pdb) by e2pdb2mrc.py EMAN2 package.
-```
-e2pdb2mrc.py 1yfq.pdb 1yfq_2.mrc --res 5.0
-```
-__map2map__: Converts a mrc format map file into situs format. More infomation can be find [here](http://situs.biomachina.org/fguide.html#map2map).
-Convert MRC format file to SITUS format by map2map SITUS package.
-```
-echo 2|map2map 1yfq.mrc 1yfq.situs
-```
-
-__SPIDER2__: Predict secondary structure from the target sequence. More infomation can be find [here](https://github.com/yuedongyang/SPIDER2).
-Used for Thread the amino acid sequence on the longest path
-ThreadCA requires output file (*.spd3) from SPIDER2.
-```
-run_local.sh 1yfq.seq
-```
+In order to achieve the full functionality of the MAINMAST plugin, you should have the following package installed: 
 
 __PULCHRA__: PULCHRA reconstructs full-atom model from MAINMAST C-alpha models.
-More infomation can be find [here](http://www.pirx.com/pulchra/).
+More information can be find [here](http://www.pirx.com/pulchra/).
 ```
 pulchra CA_model.pdb
 ```
 
-__PHENIX refinement__: General purpose crystallographic structure refinement program. More infomation can be find [here](https://www.phenix-online.org/documentation/reference/refinement.html) and [here](https://www.phenix-online.org/documentation/reference/real_space_refine.html)
+__PHENIX refinement__: General purpose crystallographic structure refinement program. More information can be find [here](https://www.phenix-online.org/documentation/reference/refinement.html) and [here](https://www.phenix-online.org/documentation/reference/real_space_refine.html)
 ```
 phenix.real_space_refine model.pdb map.ccp4 resolution=4.2
 ```
 
+(you can still use MAINMAST plugin if the following package is not installed, but you will not be able to use the PULCHRA reconstruction and PHENIX refinement function)
+
 #### Download MAINMAST plugin
 
-Download plugin code from github [here](https://github.com/kiharalab/MAINMASTplugin.git). 
+Download plugin code from Github [here](https://github.com/kiharalab/MAINMASTplugin.git). 
 
 ###### This first step is really important!!! 
 Make sure you remember the path where you put this file, it will be used for set up configuration later. 
 
 For example, if the file is stored at
 ```
-/user/Destktop/MAINMASTplugin
+/user/Desktop/MAINMASTplugin
 ```
 Then __your_path_to_MAINMASTplugin__ will be
 ```
-/user/Destktop
+/user/Desktop
 ```
 #### Set up plugin configurations
 
-##### First, set up pulgin's working directory. 
+##### First, set up plugin's working directory. 
 To set up this configuration, go to WorkPath.py located at:
 ```
 /your_path_to_MAINMASTplugin/MAINMASTplugin/MainMastUI/WorkPath.py
@@ -95,7 +83,10 @@ and change it to:
 def showWorkingPath():
 return "/your_path_to_MAINMASTplugin/MAINMASTplugin/MainMastUI"
 ```
-Remember, __your_path_to_MAINMASTplugin__ is where you saved your MAINMASTplugin file.
+Remember, __your_path_to_MAINMASTplugin__ is where you saved your MAINMASTplugin file and has to use  __absolute path__. 
+(For example, 
+__Use__ "/net/user/your_path_to_MAINMASTplugin/MAINMASTplugin/MainMastUI"; 
+__Do not use__ "~/your_path_to_MAINMASTplugin/MAINMASTplugin/MainMastUI")
 
 ##### Second, build excutable file. 
 Compile from source codes:
@@ -173,6 +164,17 @@ Generate all files, including Minimum Spanning tree file, all possible connectio
 This process will perform additional task of Refine Tree structure by Tabu Search algorithm and Thread sequence on the longest path. It will be performed based on the Minimum Spanning Tree generated before. 
 
 Choose the button that suits your purpose the most. We recommend first used `Create MST & ALL Edges` to check the correctness of Minimum Spanning tree.   `Create all files` will be significantly slower than `Create MST & ALL Edges`, so you may want to make sure the Minimum Spanning tree is correct before generating all files.
+
+When creating the file, the lower middle session of window will change the displaying words from "file not created" to "generating files", and the __window will be frozen during the time of file creation__. You will not be able to click any buttons during this period. After the displaying words change to "ready to display", you can continue using the window. Here shows an example after we click `Create MST & ALL Edges`:
+
+Before click the button, the windows shows "MST & all Edges: file not created"
+<img src="https://github.com/kiharalab/MAINMASTplugin/blob/master/imgs/img_file_not_created.png" width="240">
+
+After click the button, the windows changes to "MST & all Edges: generating files" and becomes frozen
+<img src="https://github.com/kiharalab/MAINMASTplugin/blob/master/imgs/img_generating.png" width="240">
+
+When file creation finishes, the windows shows "MST & all Edges: ready to display"
+<img src="https://github.com/kiharalab/MAINMASTplugin/blob/master/imgs/img_ready_to_display.png" width="240">
 
 #### Section 2: Display MAINMAST graphs
 

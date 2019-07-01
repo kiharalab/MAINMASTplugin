@@ -279,7 +279,6 @@ class MainchainDialog(ModelessDialog):
             currentFileStored = 0
             try:
                 os.chdir(outfilePath)
-                # print("asdfasdf"+outfilePath)
 
                 if not os.path.exists("MAINMAST/MAINMASTfile"):
                     os.makedirs("MAINMAST/MAINMASTfile")
@@ -288,8 +287,6 @@ class MainchainDialog(ModelessDialog):
                     filelist = [ file for file in os.listdir(outfilePath + "/MAINMAST/MAINMASTfile") ]
                     for f in filelist:
                         os.remove(os.path.join(outfilePath + "/MAINMAST/MAINMASTfile", f))
-                    # subprocess.Popen(["rm", outfilePath + "MAINMAST/MAINMASTfile/*.situs *.pdb *.spd3"], stdout=subprocess.PIPE)
-                    # os.makedirs("MAINMAST/MAINMASTfile")
             finally:
                 os.chdir(prevdir)
 
@@ -335,35 +332,17 @@ class MainchainDialog(ModelessDialog):
             currentSitusPath = newdir + "/" + currentSitus
             subprocess.Popen(["cp", filePath, situsPath])
             subprocess.Popen(["cp", filePath, currentSitusPath])
-            # global spd3filePathPrev
-            # spd3filePathPrev=
-            # mrcFile = fileName + ".mrc"
-            # mrcPath = newdir + "/" + mrcFile
-            # currentMrc = "current.mrc"
-            # currentMrcPath = newdir + "/" + currentMrc
-            # subprocess.Popen(["cp", filePath, mrcPath])
-            # subprocess.Popen(["cp", filePath, currentMrcPath])
 
             seqFile = fileName + ".seq"
             spd3File_name = fileName + ".spd3"
             spd3File = "current.spd3"
             pssmFile = fileName + ".pssm"
-            # try:
-            #     copyfile(filePath[:-6] + ".seq", newdir + "/" + seqFile)
-            # except:
-            #     print(".seq file Does not exist")
 
             try:
-                # copyfile(filePath[:-6] + ".spd3", newdir + "/" + spd3File)
                 copyfile(spd3fileName.get(), newdir + "/" + spd3File)
                 copyfile(spd3fileName.get(), newdir + "/" + spd3File_name)
             except:
                 print(".spd3 file Does not exist")
-
-            # try:
-            #     copyfile(filePath[:-6] + ".pssm", newdir + "/" + pssmFile)
-            # except:
-            #     print(".pssm file Does not exist")
 
             
 
@@ -397,7 +376,7 @@ class MainchainDialog(ModelessDialog):
                 if ifPath:
                     f = open("path.pdb", "w")
                     # p = subprocess.Popen(["../MAINMAST", "-m", situsFile, "-t", t, "-filter", Pfilter, "-Dkeep", Dkeep, "-Ntb", Ntb, "-Rlocal", Rlocal, "-Nlocal", "50", "-Nround", Nround, "-Path"], stdout=f)
-                    p = subprocess.Popen(["../MAINMAST", "-m", "current.situs", "-t", t, "-filter", Pfilter, "-Dkeep", Dkeep, "-Ntb", Ntb, "-Rlocal", Rlocal, "-Nlocal", "50", "-Nround", Nround, "-Path"], stdout=f)
+                    p = subprocess.Popen(["../MAINMAST", "-m", currentSitusPath, "-t", t, "-filter", Pfilter, "-Dkeep", Dkeep, "-Ntb", Ntb, "-Rlocal", Rlocal, "-Nlocal", "50", "-Nround", Nround, "-Path"], stdout=f)
                     p.communicate()
                     # This part left here if want to indicate 'Path.pdb' creation process
                     # Pathcreate = Tkinter.Label(parent, text="Path.pdb:                    ")
@@ -407,7 +386,7 @@ class MainchainDialog(ModelessDialog):
                     f.close()
 
                 f = open("graph.pdb", "w")          
-                g = subprocess.Popen(["../MAINMAST", "-m", "current.situs", "-t", t, "-filter", Pfilter, "-Dkeep", Dkeep, "-Ntb", Ntb, "-Rlocal", Rlocal, "-Nlocal", "50", "-Nround", Nround, "-Graph"], stdout=f)
+                g = subprocess.Popen(["../MAINMAST", "-m", currentSitusPath, "-t", t, "-filter", Pfilter, "-Dkeep", Dkeep, "-Ntb", Ntb, "-Rlocal", Rlocal, "-Nlocal", "50", "-Nround", Nround, "-Graph"], stdout=f)
                 
                 g.communicate()
                 f.close()
@@ -420,7 +399,7 @@ class MainchainDialog(ModelessDialog):
                 
 
                 f = open("tree.pdb", "w")
-                t = subprocess.Popen(["../MAINMAST", "-m", "current.situs", "-t", t, "-filter", Pfilter, "-Dkeep", Dkeep, "-Ntb", Ntb, "-Rlocal", Rlocal, "-Nlocal", "50", "-Nround", Nround, "-Tree"], stdout=f)
+                t = subprocess.Popen(["../MAINMAST", "-m", currentSitusPath, "-t", t, "-filter", Pfilter, "-Dkeep", Dkeep, "-Ntb", Ntb, "-Rlocal", Rlocal, "-Nlocal", "50", "-Nround", Nround, "-Tree"], stdout=f)
                 t.communicate()
                 f.close()
 
@@ -432,6 +411,10 @@ class MainchainDialog(ModelessDialog):
                 MSTcreate = Tkinter.Label(createFileUI.sub_frame, text="MST & all Edges: ready to display")
                 MSTcreate.grid(row=13, column=0, columnspan=2, sticky=Tkinter.W)
 
+            except (IOError),e:
+                tkMessageBox.showwarning("Error", "Something went wrong when generating files, please try again")
+                os.chdir(prevdir)
+                return
             #   After "Path.pdb", "Graph.pdb" and "Tree.pdb" created, python
             #   respondes with "all files created"
             finally:
@@ -822,8 +805,6 @@ class MainchainDialog(ModelessDialog):
                     grp=getPseudoBondGroup("CA", associateWith=modelCA)
                     for i in range (0, len(res) - 2):
                         grp.newPseudoBond(res[i].atomsMap['CA'][0], res[i+1].atomsMap['CA'][0])
-
-
                     rc("setattr g lineWidth 3")
                     rc("setattr p color black")
 
@@ -1032,10 +1013,6 @@ class MainchainDialog(ModelessDialog):
                         else:
                             file.write(line)
 
-                # print("start ../run_local.sh")
-                # r = subprocess.Popen(["../run_local.sh", seqFile])
-                # r.communicate()
-                # print("end ../run_local.sh")
 
                 f = open("CA.pdb", "w")
                 caall = subprocess.Popen(["../ThreadCA", "-i", "path.pdb", "-a", "../20AA.param", "-spd", "current.spd3", "-fw", "1.4", "-Ab", "3.4", "-Wb", "0.9"], stdout=f)
@@ -1090,7 +1067,6 @@ class MainchainDialog(ModelessDialog):
                 efileName.insert(0, filename[len(filename)-1])
                 efilePath.insert(0, path)
                 pnix_mrc.delete(0, "end")
-            # spd3fileName.delete(0, "end")
 
 
         def chooseMrcFile_callback():
@@ -1119,7 +1095,6 @@ class MainchainDialog(ModelessDialog):
             spd3filePath.delete(0, "end")
             path=tkFileDialog.askopenfilename()
             filename = path.split("/")
-            # spd3fileName.insert(0, filename[len(filename)-1])
             spd3fileName.insert(0, path)
 
         def compare_file1_callback():
@@ -1127,7 +1102,6 @@ class MainchainDialog(ModelessDialog):
 
             path=tkFileDialog.askdirectory()
             if path != "":
-                # spd3fileName.insert(0, filename[len(filename)-1])
                 select_file1_Name.delete(0, "end")
                 select_file1_Name.insert(0, path)
 
@@ -1136,7 +1110,6 @@ class MainchainDialog(ModelessDialog):
 
             path=tkFileDialog.askdirectory()
             if path != "":
-                # spd3fileName.insert(0, filename[len(filename)-1])
                 select_file2_Name.delete(0, "end")
                 select_file2_Name.insert(0, path)
 
@@ -1145,7 +1118,6 @@ class MainchainDialog(ModelessDialog):
 
             path=tkFileDialog.askdirectory()
             if path != "":
-                # spd3fileName.insert(0, filename[len(filename)-1])
                 select_file3_Name.delete(0, "end")
                 select_file3_Name.insert(0, path)
 
@@ -1171,11 +1143,6 @@ class MainchainDialog(ModelessDialog):
             compare2 = select2.get().rstrip()
             compare3 = select3.get().rstrip()
 
-            # comp_path_1 = workingPath + compare1
-
-            # comp_path_2 = workingPath + compare2
-
-            # comp_path_3 = workingPath + compare3
             comp_path_1 = select_file1_Name.get()
 
             comp_path_2 = select_file2_Name.get()
@@ -1280,11 +1247,6 @@ class MainchainDialog(ModelessDialog):
             compare2 = select2.get().rstrip()
             compare3 = select3.get().rstrip()
 
-            # comp_path_1 = workingPath + compare1
-
-            # comp_path_2 = workingPath + compare2
-
-            # comp_path_3 = workingPath + compare3
             comp_path_1 = select_file1_Name.get()
 
             comp_path_2 = select_file2_Name.get()
@@ -1387,11 +1349,6 @@ class MainchainDialog(ModelessDialog):
             compare2 = select2.get().rstrip()
             compare3 = select3.get().rstrip()
 
-            # comp_path_1 = workingPath + compare1
-
-            # comp_path_2 = workingPath + compare2
-
-            # comp_path_3 = workingPath + compare3
             comp_path_1 = select_file1_Name.get()
 
             comp_path_2 = select_file2_Name.get()
@@ -1460,11 +1417,6 @@ class MainchainDialog(ModelessDialog):
             compare2 = select2.get().rstrip()
             compare3 = select3.get().rstrip()
 
-            # comp_path_1 = workingPath + compare1
-
-            # comp_path_2 = workingPath + compare2
-
-            # comp_path_3 = workingPath + compare3
             comp_path_1 = select_file1_Name.get()
 
             comp_path_2 = select_file2_Name.get()
@@ -1535,11 +1487,6 @@ class MainchainDialog(ModelessDialog):
             compare2 = select2.get().rstrip()
             compare3 = select3.get().rstrip()
 
-            # comp_path_1 = workingPath + compare1
-
-            # comp_path_2 = workingPath + compare2
-
-            # comp_path_3 = workingPath + compare3
             comp_path_1 = select_file1_Name.get()
 
             comp_path_2 = select_file2_Name.get()
@@ -1575,9 +1522,7 @@ class MainchainDialog(ModelessDialog):
                 finally:
                     os.chdir(prevdir)
 
-            # print(comp_path_3)
             if comp_path_3 != "":
-                # print("heraerfasdf")
                 prevdir = os.getcwd()
                 try:
                     os.chdir(comp_path_3)
@@ -1628,71 +1573,41 @@ class MainchainDialog(ModelessDialog):
                 prevdir = os.getcwd()
                 newdir = outfilePath + "/MAINMAST/MAINMASTfile"
 
-                # try:
-                    
-                #     os.chdir(path)
-                #     print("save\nchange path to " + path + "\ncurrent working Dir: " + os.getcwd())
-                    
-                #     print("checkpoint 1")
-                    
-                #     print("checkpoint 2")
-
-                # finally:
-                #     print("checkpoint 3")
-                #     os.chdir(prevdir)
-                #     print("checkpoint 4")
-                # print("checkpoint 1")
                 try:
                     copy_tree(newdir, path)
-                    # print("checkpoint 2")
 
                     command = "save " + path + "/" + fileName[0] + "_with_" + t + "t" + "_session.py"
                     rc(command)
-                    # print("checkpoint 5")
                     var_file = path + "/var_file.txt"
-                    # print("checkpoint 6")
 
                     create_info_1 = CAcreate.cget("text");
-                    # print("checkpoint 8")
                     if "ready to display" in create_info_1:
                         var_specs = "CA~~~" + fileNamePrev + "~~~" + t + "~~~" + Pfilter + "~~~" + Dkeep + "~~~" + Ntb + "~~~" + Rlocal + "~~~" + Nround + "~~~" + spd3filePathPrev + "~~~" + Pnix + "~~~" + PnixMrc 
                     else:
                         var_specs = "MST~~~" + fileNamePrev + "~~~" + t + "~~~" + Pfilter + "~~~" + Dkeep + "~~~" + Ntb + "~~~" + Rlocal + "~~~" + Nround + "~~~" + spd3filePathPrev + "~~~" + Pnix + "~~~" + PnixMrc 
 
-                    # print("checkpoint 9")
 
                     with open(var_file,'a') as variable_file:
                         variable_file.write(var_specs)
-                    # print("checkpoint 10")
                     currentFileStored = 1
 
                     tkMessageBox.showinfo("Success", "session saved to " + path)
                 except:
                     tkMessageBox.showwarning("Error", "Save file error")
                     return
-                # print("checkpoint 11")
 
 
         def Restore_and_change_attribute(path):
             global MSTcreate
             global CAcreate
             global restored_from_file
-            # try:
-            # outfilePath = WorkPath.showWorkingPath()
-            # end = outfilePath.find('/MainMastUI')
-            # # print(end)
-            # outfilePath = outfilePath[0:int(end)]
-            # # print(workingPath)
-            # outfilePath = outfilePath + "/MAINMAST"
 
             pathSplit = path.split("/")
             print(path)
             print(pathSplit[len(pathSplit) - 1])
             _index = pathSplit[len(pathSplit) - 1].find("_")
-            # fileNameArr = pathSplit[len(pathSplit) - 1].split("_")
             pyfile = [ f for f in os.listdir(path) if f.endswith("session.py") ]
             print(pyfile)
-            # command = "open " + path + "/" + pathSplit[len(pathSplit) - 1][_index + 1: len(pathSplit[len(pathSplit) - 1])] + "_session.py"
             filedir = path
             try:
                 command = "open " + path + "/" + pyfile[0]
@@ -1712,8 +1627,6 @@ class MainchainDialog(ModelessDialog):
                 rc(command)
                 MSTAE = 0
                 pyfile = [ f for f in os.listdir(newdir) if f.endswith("session.py") or f.endswith("session.pyc") ]
-                # os.remove(newdir + "/" + pathSplit[len(pathSplit) - 1][_index + 1: len(pathSplit[len(pathSplit) - 1])] + "_session.py")
-                # os.remove(newdir + "/" + pathSplit[len(pathSplit) - 1][_index + 1: len(pathSplit[len(pathSplit) - 1])] + "_session.pyc")
                 for f in pyfile:
                     os.remove(os.path.join(newdir, f))
 
@@ -1725,21 +1638,15 @@ class MainchainDialog(ModelessDialog):
                     varlist = variable_file.readline()
                 var_list = varlist.split("~~~")
                 if var_list[0] == "CA":
-                    # MSTcreate = Tkinter.Label(createFileUI.sub_frame, text="MST & all Edges: file not created")
-                    # MSTcreate.grid(row=13, column=0, columnspan=2, sticky=Tkinter.W)
                     MSTcreate = Tkinter.Label(createFileUI.sub_frame, text="MST & all Edges: ready to display")
                     MSTcreate.grid(row=13, column=0, columnspan=2, sticky=Tkinter.W)
 
-                    #   this part in no longer use because the creation indicate has change from 4 rows to 2 rows.
-                    # CAcreate = Tkinter.Label(createFileUI.sub_frame, text="All Files: file not created")
-                    # CAcreate.grid(row=14, column=0, columnspan=2, sticky=Tkinter.W)
                     CAcreate = Tkinter.Label(createFileUI.sub_frame, text="All Files: ready to display")
                     CAcreate.grid(row=14, column=0, columnspan=2, sticky=Tkinter.W)
                 else:
                     MSTcreate = Tkinter.Label(createFileUI.sub_frame, text="MST & all Edges: ready to display")
                     MSTcreate.grid(row=13, column=0, columnspan=2, sticky=Tkinter.W)
 
-                    #   this part in no longer use because the creation indicate has change from 4 rows to 2 rows.
                     CAcreate = Tkinter.Label(createFileUI.sub_frame, text="All Files: file not created")
                     CAcreate.grid(row=14, column=0, columnspan=2, sticky=Tkinter.W)
                 efileName.delete(0, "end")
@@ -1763,22 +1670,17 @@ class MainchainDialog(ModelessDialog):
                 eRlocal.insert(0, var_list[6])
                 eNround.insert(0, var_list[7])
                 splitvar = var_list[8].split("/")
-                # print(var_list[8])
-                # print()
                 var_list[8] = splitvar[len(splitvar) - 1]
                 spd3fileName.insert(0, filedir + "/" + var_list[8])
                 pnix.insert(0, var_list[9])
                 if var_list[10] != "":
                     splitvar = var_list[10].split("/")
                     var_list[10] = splitvar[len(splitvar) - 1]
-                    # spd3fileName.insert(0, filedir + "/" + var_list[10])
                     pnix_mrc.insert(0, filedir + "/" + var_list[10])
                 else:
                     pnix_mrc.insert(0, "")
                 restored_from_file = 1
                 MSTAE = 1
-                # except:
-                #     print("unseccessful")
 
                 
 
@@ -1895,7 +1797,7 @@ class MainchainDialog(ModelessDialog):
             global restored_from_file
 
             create_info_1 = MSTcreate.cget("text");
-            # create_info_2 = MSTcreate.cget("text");
+
             if not currentFileStored and not restored_from_file:
                 if "ready to display" in create_info_1:
                     storeFilePopUp = Toplevel()
@@ -1917,7 +1819,7 @@ class MainchainDialog(ModelessDialog):
             global restored_from_file
 
             create_info_1 = MSTcreate.cget("text");
-            # create_info_2 = MSTcreate.cget("text");
+
             if not currentFileStored and not restored_from_file:
                 if "ready to display" in create_info_1:
                     storeFilePopUp = Toplevel()
@@ -1937,9 +1839,9 @@ class MainchainDialog(ModelessDialog):
             global storeFilePopUp
             global currentFileStored
             global restored_from_file
-            # print()
+
             create_info_1 = MSTcreate.cget("text");
-            # create_info_2 = MSTcreate.cget("text");
+
             if not currentFileStored and not restored_from_file:
                 if "ready to display" in create_info_1:
                     storeFilePopUp = Toplevel()
@@ -1959,9 +1861,9 @@ class MainchainDialog(ModelessDialog):
             global storeFilePopUp
             global currentFileStored
             global restored_from_file
-            # print()
+
             create_info_1 = MSTcreate.cget("text");
-            # create_info_2 = MSTcreate.cget("text");
+
             if not currentFileStored and not restored_from_file:
                 print("here")
                 if "ready to display" in create_info_1:
@@ -1996,10 +1898,6 @@ class MainchainDialog(ModelessDialog):
             global storeFilePopUp
             storeFilePopUp.destroy()
             Compare_file_callback()
-
-
-
-
 
 
 
@@ -2102,13 +2000,6 @@ class MainchainDialog(ModelessDialog):
             end = workingPath.find('/MainMastUI')
             workingPath = workingPath[0:int(end)]
             workingPath = workingPath + "/MAINMAST"
-            # his_file = workingPath + "/history_file.txt"
-
-            # his_list = []
-
-            # with open(his_file,'r') as history_file:
-            #     for line in history_file:
-            #         his_list.append(line)
 
             select_file1_Name = Tkinter.Entry(compareHistoryPopUp)
             select_file1_Name.config(width=40)
@@ -2135,18 +2026,6 @@ class MainchainDialog(ModelessDialog):
             select2.set("select")
             select3 = Tkinter.StringVar(compareHistoryPopUp)
             select3.set("select")
-
-            # his_1 = Tkinter.OptionMenu(compareHistoryPopUp, select1, *his_list)
-            # his_1.config(width=len("abcde.mrc,t=1.0,filter=0.30,Dkeep=1.00,Ntb=10.0,Rlocal=5.0,Nround=50.0"))
-            # his_1.grid(row=2, column=0, columnspan=5)
-
-            # his_2 = Tkinter.OptionMenu(compareHistoryPopUp, select2, *his_list)
-            # his_2.config(width=len("abcde.mrc,t=1.0,filter=0.30,Dkeep=1.00,Ntb=10.0,Rlocal=5.0,Nround=50.0"))
-            # his_2.grid(row=3, column=0, columnspan=5)
-
-            # his_3 = Tkinter.OptionMenu(compareHistoryPopUp, select3, *his_list)
-            # his_3.config(width=len("abcde.mrc,t=1.0,filter=0.30,Dkeep=1.00,Ntb=10.0,Rlocal=5.0,Nround=50.0"))
-            # his_3.grid(row=4, column=0, columnspan=5)
 
             label1 = Label(compareHistoryPopUp, text="Select one to compare:", height=2)
             label1.grid(row=5,column=0, columnspan=5, sticky=Tkinter.W)
@@ -2213,7 +2092,6 @@ class MainchainDialog(ModelessDialog):
             label5.insert(0, "cd " + outfilePath)
             label5.grid(row=3,column=1, columnspan=2, sticky=Tkinter.W)
 
-            # label3 = Label(toplevel, text="module load phenix", height=0)
             label3 = Tkinter.Entry(toplevel, width=100)
             label3.insert(0, "module load phenix")
             label3.grid(row=4,column=1, columnspan=2, sticky=Tkinter.W)
@@ -2221,121 +2099,16 @@ class MainchainDialog(ModelessDialog):
             if pnixWeight == "Default":
                 label4 = Tkinter.Entry(toplevel, width=100)
                 label4.insert(0, "phenix.real_space_refine CA.rebuilt.pdb current.mrc resolution=5.0")
-                # label4 = Label(toplevel, text="phenix.real_space_refine CA.rebuilt.pdb current.mrc resolution=5.0", height=0)
                 label4.grid(row=5,column=1, columnspan=2, sticky=Tkinter.W)
 
             else:
                 label4 = Tkinter.Entry(toplevel, width=100)
                 label4.insert(0, "phenix.real_space_refine CA.rebuilt.pdb current.mrc resolution=" + pnixWeight)
-                # label4 = Label(toplevel, text="phenix.real_space_refine CA.rebuilt.pdb current.mrc resolution=" + pnixWeight, height=0)
                 label4.grid(row=5,column=1, columnspan=2, sticky=Tkinter.W)
 
             label6 = Label(toplevel, text="                                                                            ", height=0)
             label6.grid(row=6,column=1, columnspan=2, sticky=Tkinter.W)
 
-            
-
-
-
-            
-            #ofilePath.delete(0, "end")
-            # path=tkFileDialog.askdirectory()
-            # try:
-            #     # command = "module load phenix"
-            #     # rc(command)
-            #     # command = "phenix.real_space_refine CA.rebuilt.pdb " + currentMrc + "resolution = 5.0"
-            #     # rc(command)
-            #     pnixWeight=pnix.get()
-            #     print(pnixWeight)
-
-            #     if pnixWeight == "Default":
-            #         i = subprocess.Popen(["module load phenix"], stdout=subprocess.PIPE)
-            #         print i.communicate()
-            #         i = subprocess.Popen(["phenix.real_space_refine CA.rebuilt.pdb", currentMrc, "resolution=5.0"], stdout=subprocess.PIPE)
-            #         print i.communicate()
-            #     else:
-            #         command = "module load phenix"
-            #         rc(command)
-            #         command = "phenix.real_space_refine CA.rebuilt.pdb " + currentMrc + "resolution=5.0 weight=" + float(pnixWeight)
-            #         rc(command)
-            #         print("weight = " + pnixWeight)
-            # except:
-            #     print("unseccessful: must be Default or number")
-            #     pnixWeight=pnix.get()
-            #     print(pnixWeight)
-
-            #     if pnixWeight == "Default":
-            #         command = "module load phenix"
-            #         rc(command)
-            #         command = "phenix.real_space_refine CA.rebuilt.pdb " + currentMrc + "resolution=5.0"
-            #         rc(command)
-            #         print("default")
-            #     else:
-            #         command = "module load phenix"
-            #         rc(command)
-            #         command = "phenix.real_space_refine CA.rebuilt.pdb " + currentMrc + "resolution=5.0 weight=" + float(pnixWeight)
-            #         rc(command)
-            #         print("weight = " + pnixWeight)
-
-
-            # outfilePath = WorkPath.showWorkingPath()
-            # end = outfilePath.find('/MainMastUI')
-            # outfilePath = outfilePath[0:int(end)]
-            # prevdir = os.getcwd()
-            # newdir = outfilePath + "/MAINMAST/MAINMASTfile"
-            
-
-            # try:
-            #     os.chdir(newdir)
-            #     pnixWeight=pnix.get()
-            #     print(pnixWeight)
-            #     try:
-            #         oldPnix = newdir + "/phenix_real_space_refine.pdb"
-            #         os.remove(oldPnix)
-            #         print("removed old files and ready to create pdb files")
-            #     except:
-            #         print("ready to create pnix files")
-            #     try:
-            #         os.chdir(newdir)
-            #         print(os.getcwd())
-            #         global MSTcreate
-            #         global AEcreate
-            #         global Pathcreate
-
-            #         f = open("phenix_real_space_refine.pdb", "w")
-            #         if pnixWeight == "Default":
-            #             #sys.path.insert(0, '/usr/local/bin')
-            #             # import phenix
-            #             #print("here")
-            #             # subprocess.check_output("module load phenix && phenix.real_space_refine CA.rebuilt.pdb current.mrc resolution=5.0")
-            #             # print("finish subprocess")
-            #             # print mlp.communicate()
-            #             # rc("open current.mrc")
-            #             # moduleload = subprocess.Popen(["module", "load", "phenix"], shell=True)
-            #             subprocess.call(["source", "running.sh", "load", "phenix"], shell=True)
-            #             subprocess.call(["which", "phenix"], shell=True)
-
-
-
-            #             #######pnixC = subprocess.call(["/net/apps/linux/phenix/phenix-1.13-2998/build/bin/phenix.real_space_refine", "CA.rebuilt.pdb", "current.mrc", "resolution=5.0"])
-            #             #print pnixC.communicate()
-
-            #             # sC = subprocess.Popen(('echo', '2'), stdout=subprocess.PIPE)
-            # #         else:
-            # #             command = "module load phenix"
-            # #             rc(command)
-            # #             command = "phenix.real_space_refine CA.rebuilt.pdb current.mrc resolution=5.0 weight=" + float(pnixWeight)
-            # #             rc(command)
-            # #             print("weight = " + pnixWeight)
-            # #     # except:
-            # #     #     print("unseccessful")
-            #     finally:
-            #         print("finished")
-
-
-            # finally:
-                
-            #     os.chdir(prevdir)
 
 
         #   this callback is called when the user clicked the "show result graph"
@@ -2359,11 +2132,6 @@ class MainchainDialog(ModelessDialog):
             try:
                 os.chdir(newdir)
                 rc("close all")
-                # rc("~modeldisp #0")
-                # rc("~modeldisp #1")
-                # rc("~modeldisp #3")
-
-                # subprocess.Popen(["../pulchra/bin/linux/pulchra", "CA.pdb"])
                 fn = "CA.rebuilt.pdb"
                 modelCArebuilt=chimera.openModels.open(fn)
                 fn = "CA.rebuilt_real_space_refined.pdb"
@@ -2408,25 +2176,12 @@ class MainchainDialog(ModelessDialog):
 
 
 
-        # def createFileUI():
         createFileUI = ToggledFrame(parent, text='Create MAINAMST files', relief="raised")
         createFileUI.grid(row=0,column=0, columnspan=2)
         displayGraphUI = ToggledFrame(parent, text='Display MAINAMST graphs', relief="raised")
         displayGraphUI.grid(row=1,column=0, columnspan=2)
         saveFileUI = ToggledFrame(parent, text='Save and Restore files', relief="raised")
         saveFileUI.grid(row=2,column=0, columnspan=3)
-
-            # ttk.Label(createFileUI.sub_frame, text='Rotation [deg]:').pack(side="left", fill="x", expand=1)
-            # ttk.Entry(createFileUI.sub_frame).pack(side="left")
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2439,39 +2194,30 @@ class MainchainDialog(ModelessDialog):
         Tkinter.Frame(createFileUI.sub_frame, width=390, height=580, padx=3, pady=3).grid(row=0, column =0, rowspan = 16, columnspan=2)
         Tkinter.Frame(displayGraphUI.sub_frame, bg='gray96', width=390, height=620, padx=3, pady=3).grid(row=0, column =0, rowspan = 16, columnspan=2)
         Tkinter.Frame(saveFileUI.sub_frame, width=390, height=158, padx=3, pady=3).grid(row=0, column =0, rowspan = 16, columnspan=3)
-        # Tkinter.Frame(displayGraphUI.sub_frame, bg='gray96', width=280, height=600, padx=3, pady=3).grid(row=0,  rowspan = 16, columnspan=2)
         MST_Button = Tkinter.Button(displayGraphUI.sub_frame, text=MSTree, highlightbackground='gray96', wraplength=80, width=10, height=3, command=MST_callback)
 
-        MST_Button.grid(row=4, column=0, rowspan=2, sticky=Tkinter.W)#, row=3, padx=5,pady=5)
+        MST_Button.grid(row=4, column=0, rowspan=2, sticky=Tkinter.W)
 
         AE_Button = Tkinter.Button(displayGraphUI.sub_frame, text=AllEdges, highlightbackground='gray96', wraplength=80, width=10, height=3, command=AE_callback)
 
-        # AE_Button.grid(row=4, column=0, rowspan=2, sticky=Tkinter.E)#, row=3, padx=5,pady=5)
         AE_Button.grid(row=6,column=0, rowspan=2, sticky=Tkinter.W)
-
-        # MST_Button = Tkinter.Button(parent, text=AllEdges, wraplength=80, width=8, height=3, command=MST_callback)
-
-        # MST_Button.grid(row=2, column=0, rowspan=2)
 
         MCP_Button = Tkinter.Button(displayGraphUI.sub_frame, text=MCPath, highlightbackground='gray96', wraplength=80, width=10, height=3, command=MCP_callback)
 
-        # MCP_Button.grid(row=4,column=1, rowspan=2)#, row=3, padx=5,pady=5)
         MCP_Button.grid(row=4, column=0, rowspan=2, sticky=Tkinter.E)
 
         CA_Button = Tkinter.Button(displayGraphUI.sub_frame, text=CAModel, highlightbackground='gray96', wraplength=80, width=10, height=3, command=CA_callback)
 
-        # CA_Button.grid(row=6,column=0, rowspan=2, sticky=Tkinter.W)
         CA_Button.grid(row=6,column=0, rowspan=2, sticky=Tkinter.E)
 
 
         pulchra_Button = Tkinter.Button(displayGraphUI.sub_frame, text=pulchra, highlightbackground='gray96', wraplength=80, width=10, height=3, command=pulchra_callback)
 
-        # pulchra_Button.grid(row=6,column=0, rowspan=2, sticky=Tkinter.E)#, row=3, padx=5,pady=5)
         pulchra_Button.grid(row=4,column=1, rowspan=2)
 
         ModelPanel_Button = Tkinter.Button(displayGraphUI.sub_frame, text=ModelPanel, highlightbackground='gray96', wraplength=80, width=10, height=1, command=ModelPanel_callback)
 
-        ModelPanel_Button.grid(row=9,column=0, sticky=Tkinter.W)#, row=3, padx=5,pady=5)
+        ModelPanel_Button.grid(row=9,column=0, sticky=Tkinter.W)
 
         Map_Button = Tkinter.Button(displayGraphUI.sub_frame, text="Map file", highlightbackground='gray96', wraplength=80, width=9, height=1, command=Map_callback)
 
@@ -2484,38 +2230,22 @@ class MainchainDialog(ModelessDialog):
         Save_Button = Tkinter.Button(saveFileUI.sub_frame, text="compare session&files", wraplength=80, width=10, height=6, command=store_file_before_compare)
         Save_Button.grid(row=1,column=2, rowspan=2)
 
-        # Save_Button = Tkinter.Button(saveFileUI.sub_frame, text="save files to history", wraplength=80, width=10, height=6, command=Save_History_callback)
-
-        # Save_Button.grid(row=1,column=1, rowspan=2)
-
         Save_Button = Tkinter.Button(saveFileUI.sub_frame, text="save session&files", wraplength=80, width=10, height=6, command=Save_callback)
         Save_Button.grid(row=1,column=0, rowspan=2)
-        # Save_Button.grid(row=5,column=0, rowspan=2)
 
         Restore_Button = Tkinter.Button(saveFileUI.sub_frame, text="restore session&file", wraplength=80, width=10, height=6, command=store_file_before_restore)
 
-        # Restore_Button.grid(row=5,column=1, rowspan=2)
         Restore_Button.grid(row=1,column=1, rowspan=2)
-
-
-        # split_line = 17
-        # line = Tkinter.Canvas(parent, width=1, height=30*split_line)
-        # line.grid(column=1, row=0, rowspan=split_line)
-        # line.create_line(1,0,1,30*split_line)
 
         Tkinter.Label(createFileUI.sub_frame, text="Step 1: Files and attribute values for MainMast Execution").grid(row=0, column=0, columnspan=2, sticky=Tkinter.W)
         Tkinter.Label(displayGraphUI.sub_frame, text="Step 2: Click buttons for graph display", bg='gray96').grid(row=0, column=0, columnspan=2, sticky=Tkinter.W)
         Tkinter.Label(displayGraphUI.sub_frame, text="Click buttons to view MAINMAST output graph:", bg='gray96').grid(row=3, column=0, columnspan=2, sticky=Tkinter.W)
         Tkinter.Label(displayGraphUI.sub_frame, text="Supplement graphs:", bg='gray96').grid(row=8, column=0, columnspan=2, sticky=Tkinter.W)
         Tkinter.Label(saveFileUI.sub_frame, text="Save, Restore and Compare graphs:").grid(row=0, column=0, columnspan=3, sticky=Tkinter.W)
-        # Tkinter.Label(saveFileUI.sub_frame, text="History files:").grid(row=1, column=0, columnspan=2, sticky=Tkinter.W)
-        # Tkinter.Label(saveFileUI.sub_frame, text="Your own places:").grid(row=4, column=0, columnspan=2, sticky=Tkinter.W)
         Tkinter.Label(createFileUI.sub_frame, text="MainMast excuting progress:").grid(row=12, column=0, columnspan=2, sticky=Tkinter.W)
         Tkinter.Label(displayGraphUI.sub_frame, text="Run Phenix refinement:", bg='gray96').grid(row=10, column=0, columnspan=3, sticky=Tkinter.W)
         MSTcreate = Tkinter.Label(createFileUI.sub_frame, text="MST & all Edges: file not created")
         MSTcreate.grid(row=13, column=0, columnspan=2, sticky=Tkinter.W)
-        # MSTcreate = Tkinter.Label(createFileUI.sub_frame, text="MST & all Edges: ready to display")
-        # MSTcreate.grid(row=13, column=0, columnspan=2, sticky=Tkinter.W)
 
         #   this part in no longer use because the creation indicate has change from 4 rows to 2 rows.
         CAcreate = Tkinter.Label(createFileUI.sub_frame, text="All Files: file not created")
@@ -2587,7 +2317,6 @@ class MainchainDialog(ModelessDialog):
         
         file_Button.grid(row=2, column=1)
         spd3file_Button.grid(row=4, column=1)
-        # outFile_Button.grid(row=4, column=1)
         et.grid(row=5, column=1)
         ePfilter.grid(row=6, column=1)
         eDkeep.grid(row=7, column=1)
@@ -2620,7 +2349,7 @@ class MainchainDialog(ModelessDialog):
         pnix_Button = Tkinter.Button(displayGraphUI.sub_frame, highlightbackground='gray96', text="show result graph", width=18, height=1, command=show_pnix_callback)
         pnix_Button.grid(row=14,column=1, columnspan=2, sticky=Tkinter.W)
 
-        print("current platform " + "platform")
+        print("current platform " + platform)
 
 
 
