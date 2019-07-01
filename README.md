@@ -30,7 +30,7 @@ This part will guide you through the process of installation:
 3. Download the MAINMAST plugin.
 4. Set up plugin configurations.
 
-Note: The current version is for Linux and Mac only.
+__Note: The current version is for Linux and Mac only.__
 
 #### Install Chimera
 
@@ -98,12 +98,8 @@ gfortran ThreadCA.f -O3 -fbounds-check -o ThreadCA -mcmodel=medium
 If you do not have gfortran, please install it first from here https://gcc.gnu.org/wiki/GFortranBinaries.
 
 ##### Third, add the plugin to Chimera. 
-First, open Chimera. 
-If you are using Mac, then go to Application --> Chimera and open it.
-If you are using Linus, can open Chimera directly or using command:
-```
-chimera
-```
+First, open Chimera. Find where you installed Chimera and open it.
+
 Once the Chimera is open, you have to add MAINMASTplugin extension to Chimera program.
 
 To do this, first got to Chimera  `Favorites`-> `Preferences...`-> `Tools`, then click `Add...`, then select the MAINMASTplugin folder you just selected and click `Close`. Finally, click `Save` to apply the change. REMEMBER: when select the MAINMASTplugin folder, only click the folder once. Do not select any of the child folders. For example, if the folder is located at "Desktop/MAINMASTplugin", you should see Third-party plugin locations showing "Desktop".
