@@ -1,0 +1,1 @@
+2017/02/22 11:36:55	2017/02/22 11:36:56	 32176/    -1	coyote	/apps/eman2/EMAN2_2.12/bin/e2pdb2mrc.py 1yfq.pdb 1yfq_2.mrc --res 5.0
